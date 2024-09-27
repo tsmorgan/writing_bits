@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text to HTML Converter</title>
+    <style>
+        .word-1 { background-color: rgb(221, 214, 254); }
+        .word-2 { background-color: rgb(221, 214, 254); }
+        .word-3 { background-color: rgb(221, 214, 254); }
+
+        .word-4 { background-color: rgb(186, 230, 253); }
+        .word-5 { background-color: rgb(186, 230, 253); }
+        .word-6 { background-color: rgb(186, 230, 253); }
+        .word-7 { background-color: rgb(186, 230, 253); }
+
+        .word-8 { background-color: rgb(217, 249, 157); }
+        .word-9 { background-color: rgb(217, 249, 157); }
+        .word-10 { background-color: rgb(217, 249, 157); }
+        .word-11 { background-color: rgb(217, 249, 157); }
+        .word-12 { background-color: rgb(217, 249, 157); }
+
+        .word-13 { background-color: rgb(254, 240, 138); }
+        .word-14 { background-color: rgb(254, 240, 138); }
+        .word-15 { background-color: rgb(254, 240, 138); }
+        .word-16 { background-color: rgb(254, 240, 138); }
+        .word-17 { background-color: rgb(254, 240, 138); }
+        .word-18 { background-color: rgb(254, 240, 138); }
+        .word-19 { background-color: rgb(254, 240, 138); }
+        .word-20 { background-color: rgb(254, 240, 138); }
+
+        .word-21 { background-color: rgb(254, 202, 202) }
+        .word-22 { background-color: rgb(254, 202, 202) }
+        .word-23 { background-color: rgb(254, 202, 202) }
+        .word-24 { background-color: rgb(254, 202, 202) }
+        .word-25 { background-color: rgb(254, 202, 202) }
+        .word-26 { background-color: rgb(254, 202, 202) }
+        .word-27 { background-color: rgb(254, 202, 202) }
+        .word-28 { background-color: rgb(254, 202, 202) }
+        .word-29 { background-color: rgb(254, 202, 202) }
+        .word-30 { background-color: rgb(254, 202, 202) }
+
+        /* Add more styles as needed */
+        .display {
+            max-width:31em;
+            margin:0 auto;
+            line-height:1.4em;
+            font-size:19px;
+        }
+    </style>
+</head>
+<body>
+    <div id="starter" class="display">
+    <textarea id="textbox" rows="10" cols="30" style="width:100%"></textarea>
+    <button id="convertButton">Convert to HTML</button>
+    <!-- <button id="getPlainText">Get Plain Text</button> -->    
+    </div>
+
+    <div id="result" class="display"></div>
+
+    <script>
+        document.getElementById('convertButton').addEventListener('click', function () {
+            const textbox = document.getElementById('textbox').value;
+            let resultHtml = addMarks(textbox);
+            document.getElementById('result').innerHTML = resultHtml;
+            document.getElementById('starter').style.display = 'none';
+        });
+
+        function addMarks(textbox)
+        {
+            const paragraphs = textbox.split(/\n/); // Split on double spaces
+            let resultHtml = '';
+
+            paragraphs.forEach(paragraph => {
+                const sentences = paragraph.split(/(?<=[.!?])\s+/); // Split sentences
+                const markedSentences = sentences.map(sentence => {
+                    const wordCount = sentence.trim().split(/\s+/).length;
+                    const className = `word-${Math.min(wordCount, 30)}`; // Limit classes to a max of 5
+                    return `<mark class="${className}">${sentence.trim()}</mark>`;
+                }).join(' ');
+
+                resultHtml += `<p contenteditable="true">${markedSentences}</p>`;
+            });
+            return resultHtml;
+        }
+
+        document.addEventListener('keydown', function (event) {
+            // Check if Meta key (CMD) and Enter key are pressed
+            if (event.metaKey && event.key === 'Enter') {
+                const resultDiv = document.getElementById('result');
+                const paragraphs = resultDiv.querySelectorAll('p');
+                let plainText = '';
+
+                if (paragraphs.length > 1){
+                    paragraphs.forEach(paragraph => {
+                        // const sentences = Array.from(paragraph.querySelectorAll('mark')).map(mark => mark.textContent);                        
+                        // plainText += sentences.join(' ') + '\n'; // Add double newlines for paragraph separation
+                        plainText += paragraph.textContent + '\n';                        
+                    });
+                } else {
+                    plainText = paragraphs[0].textContent;
+                    console.log("plainText",plainText);
+                }
+
+                // Trim the last newlines
+                plainText = plainText.trim();
+                // console.log('Plain Text Output:\n', plainText); // Output to console
+                // alert(plainText); // Show alert with plain text
+
+                copyToClipboard(plainText);
+
+                let resultHtml = addMarks(plainText);
+                document.getElementById('result').innerHTML = resultHtml;
+            }
+        });
+
+        // document.getElementById('getPlainText').addEventListener('click', function () {
+            
+        // });
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => {
+                    console.log('Text copied to clipboard:'); // Optional: log to console
+                })
+                .catch(err => {
+                    console.error('Error copying text: ', err);
+                });
+        }
+    </script>
+</body>
+</html>
