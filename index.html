@@ -5,128 +5,256 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Text to HTML Converter</title>
     <style>
-        .word-1 { background-color: rgb(221, 214, 254); }
-        .word-2 { background-color: rgb(221, 214, 254); }
-        .word-3 { background-color: rgb(221, 214, 254); }
+    .word-1 { background-color: rgb(221, 214, 254); }
+    .word-2 { background-color: rgb(221, 214, 254); }
+    .word-3 { background-color: rgb(221, 214, 254); }
 
-        .word-4 { background-color: rgb(186, 230, 253); }
-        .word-5 { background-color: rgb(186, 230, 253); }
-        .word-6 { background-color: rgb(186, 230, 253); }
-        .word-7 { background-color: rgb(186, 230, 253); }
+    .word-4 { background-color: rgb(186, 230, 253); }
+    .word-5 { background-color: rgb(186, 230, 253); }
+    .word-6 { background-color: rgb(186, 230, 253); }
+    .word-7 { background-color: rgb(186, 230, 253); }
 
-        .word-8 { background-color: rgb(217, 249, 157); }
-        .word-9 { background-color: rgb(217, 249, 157); }
-        .word-10 { background-color: rgb(217, 249, 157); }
-        .word-11 { background-color: rgb(217, 249, 157); }
-        .word-12 { background-color: rgb(217, 249, 157); }
+    .word-8 { background-color: rgb(217, 249, 157); }
+    .word-9 { background-color: rgb(217, 249, 157); }
+    .word-10 { background-color: rgb(217, 249, 157); }
+    .word-11 { background-color: rgb(217, 249, 157); }
+    .word-12 { background-color: rgb(217, 249, 157); }
 
-        .word-13 { background-color: rgb(254, 240, 138); }
-        .word-14 { background-color: rgb(254, 240, 138); }
-        .word-15 { background-color: rgb(254, 240, 138); }
-        .word-16 { background-color: rgb(254, 240, 138); }
-        .word-17 { background-color: rgb(254, 240, 138); }
-        .word-18 { background-color: rgb(254, 240, 138); }
-        .word-19 { background-color: rgb(254, 240, 138); }
-        .word-20 { background-color: rgb(254, 240, 138); }
+    .word-13 { background-color: rgb(254, 240, 138); }
+    .word-14 { background-color: rgb(254, 240, 138); }
+    .word-15 { background-color: rgb(254, 240, 138); }
+    .word-16 { background-color: rgb(254, 240, 138); }
+    .word-17 { background-color: rgb(254, 240, 138); }
+    .word-18 { background-color: rgb(254, 240, 138); }
+    .word-19 { background-color: rgb(254, 240, 138); }
+    .word-20 { background-color: rgb(254, 240, 138); }
 
-        .word-21 { background-color: rgb(254, 202, 202) }
-        .word-22 { background-color: rgb(254, 202, 202) }
-        .word-23 { background-color: rgb(254, 202, 202) }
-        .word-24 { background-color: rgb(254, 202, 202) }
-        .word-25 { background-color: rgb(254, 202, 202) }
-        .word-26 { background-color: rgb(254, 202, 202) }
-        .word-27 { background-color: rgb(254, 202, 202) }
-        .word-28 { background-color: rgb(254, 202, 202) }
-        .word-29 { background-color: rgb(254, 202, 202) }
-        .word-30 { background-color: rgb(254, 202, 202) }
+    .word-21 { background-color: rgb(254, 202, 202) }
+    .word-22 { background-color: rgb(254, 202, 202) }
+    .word-23 { background-color: rgb(254, 202, 202) }
+    .word-24 { background-color: rgb(254, 202, 202) }
+    .word-25 { background-color: rgb(254, 202, 202) }
+    .word-26 { background-color: rgb(254, 202, 202) }
+    .word-27 { background-color: rgb(254, 202, 202) }
+    .word-28 { background-color: rgb(254, 202, 202) }
+    .word-29 { background-color: rgb(254, 202, 202) }
+    .word-30 { background-color: rgb(254, 202, 202) }
 
-        /* Add more styles as needed */
-        .display {
-            max-width:31em;
-            margin:0 auto;
-            line-height:1.4em;
-            font-size:19px;
-        }
+    .adverb { background-color: rgb(254, 202, 202) }
+    .noun { background-color: rgb(254, 240, 138) }
+    .verb { background-color: rgb(217, 249, 157); } 
+
+    /* Add more styles as needed */
+    .display {
+        max-width:31em;
+        margin:0 auto;
+        line-height:1.4em;
+        font-size:19px;
+    }
+    #menu {
+        font-size:0.8em;
+        position:fixed;
+        top:10px;
+        left:10px;
+        padding:0 1em 1em;
+        border:1px solid black;
+    }
     </style>
 </head>
 <body>
+
+    <div class="display" id="menu">
+        <p>Choose an option:</p>
+        <label> <input type="radio" name="choice" value="length" checked="checked" onclick="updateChoice(this)"> length </label><br>
+        <label> <input type="radio" name="choice" value="adverbs" onclick="updateChoice(this)"> adverbs </label><br />
+        <label> <input type="radio" name="choice" value="tobe" onclick="updateChoice(this)"> to be </label><br />
+        <!-- <p>Selected<br /><span id="selectedOption">None</span></p> -->
+    </div>
+
     <div id="starter" class="display">
-    <textarea id="textbox" rows="10" cols="30" style="width:100%"></textarea>
-    <button id="convertButton">Convert to HTML</button>
-    <!-- <button id="getPlainText">Get Plain Text</button> -->    
+        <textarea
+            id="textbox"
+            rows="10"
+            cols="30"
+            style="width:100%"
+        ></textarea>
+        <button id="convertButton">CONVERT</button>
+        <!-- <button id="getPlainText">Get Plain Text</button> -->
     </div>
 
     <div id="result" class="display"></div>
-
+    
+    <script src="https://unpkg.com/compromise"></script>
     <script>
-        document.getElementById('convertButton').addEventListener('click', function () {
-            const textbox = document.getElementById('textbox').value;
-            let resultHtml = addMarks(textbox);
-            document.getElementById('result').innerHTML = resultHtml;
-            document.getElementById('starter').style.display = 'none';
-        });
 
-        function addMarks(textbox)
-        {
-            const paragraphs = textbox.split(/\n/); // Split on double spaces
-            let resultHtml = '';
+    // Global variable to store the selected option
+    let selectedChoice = '';
 
-            paragraphs.forEach(paragraph => {
-                const sentences = paragraph.split(/(?<=[.!?])\s+/); // Split sentences
-                const markedSentences = sentences.map(sentence => {
-                    const wordCount = sentence.trim().split(/\s+/).length;
-                    const className = `word-${Math.min(wordCount, 30)}`; // Limit classes to a max of 5
-                    return `<mark class="${className}">${sentence.trim()}</mark>`;
-                }).join(' ');
+    // Function to update the global variable and the displayed text
+    function updateChoice(radioButton) {
+        selectedChoice = radioButton.value; // Update the global variable
+        // document.getElementById('selectedOption').textContent = selectedChoice; // Display the updated value
+        updateText();
+    }
 
-                resultHtml += `<p contenteditable="true">${markedSentences}</p>`;
-            });
-            return resultHtml;
+    function processText(text)
+    {
+        let newText = ''
+        switch (selectedChoice) {
+            case 'length':
+                newText = highlightSentanceLength(text);
+                break;
+            case 'adverbs':
+                newText = highlightAdverbsAndVerbs(text);
+                break;
+            case 'tobe':
+                newText = highlightToBeVerbs(text);
+                break;    
+            default:
+            newText = highlightSentanceLength(text);
         }
+        document.getElementById('result').innerHTML = newText;
+    }
 
-        document.addEventListener('keydown', function (event) {
-            // Check if Meta key (CMD) and Enter key are pressed
-            if (event.metaKey && event.key === 'Enter') {
-                const resultDiv = document.getElementById('result');
-                const paragraphs = resultDiv.querySelectorAll('p');
-                let plainText = '';
+    document.getElementById('convertButton').addEventListener('click', function () {
+        const textbox = document.getElementById('textbox').value;
+        processText(textbox)        
+        document.getElementById('starter').style.display = 'none';
+    });
 
-                if (paragraphs.length > 1){
-                    paragraphs.forEach(paragraph => {
-                        // const sentences = Array.from(paragraph.querySelectorAll('mark')).map(mark => mark.textContent);                        
-                        // plainText += sentences.join(' ') + '\n'; // Add double newlines for paragraph separation
-                        plainText += paragraph.textContent + '\n';                        
-                    });
-                } else {
-                    plainText = paragraphs[0].textContent;
-                    console.log("plainText",plainText);
-                }
+    function highlightSentanceLength(text)
+    {
+        // Split on double spaces into pars
+        const paragraphs = text.split(/\n/); 
+        let resultHtml = '';
+        paragraphs.forEach(paragraph => {
+            const sentences = paragraph.split(/(?<=[.!?])\s+/); // Split sentences
+            const markedSentences = sentences.map(sentence => {
+                const wordCount = sentence.trim().split(/\s+/).length;
+                const className = `word-${Math.min(wordCount, 30)}`; // Limit classes to a max of 5
+                return `<mark class="${className}">${sentence.trim()}</mark>`;
+            }).join(' ');
+            resultHtml += `<p contenteditable="true">${markedSentences}</p>`;
+        });
+        return resultHtml;
+    }
 
-                // Trim the last newlines
-                plainText = plainText.trim();
-                // console.log('Plain Text Output:\n', plainText); // Output to console
-                // alert(plainText); // Show alert with plain text
+    function highlightToBeVerbs(text)
+    {
+        // const doc = nlp(text);
+        // Find all forms of the verb "to be"
+        const toBeVerbs = ['am', 'is', 'are', 'was', 'were', 'being', 'been'];
+        // Initialize the modified text
+        let modifiedText = text;
+        // Loop over each "to be" verb and wrap it in <mark> tags
+        toBeVerbs.forEach(verb => {
+            const regex = new RegExp(`\\b${verb}\\b`, 'gi');
+            modifiedText = modifiedText.replace(regex, `<mark>${verb}</mark>`);
+        });
+        let resultHtml = '';
+        const paragraphs = modifiedText.split(/\n/); // Split on double spaces
+        paragraphs.forEach(paragraph => {
+            resultHtml += `<p contenteditable="true">${paragraph}</p>`;
+        });
+        return resultHtml; 
+    }
 
-                copyToClipboard(plainText);
+    function escapeRegExp(string) {
+        // Escapes special characters for use in a regular expression, except spaces
+        let escaped =  string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        console.log(string,escaped);
+        return escaped;
+    }
 
-                let resultHtml = addMarks(plainText);
-                document.getElementById('result').innerHTML = resultHtml;
-            }
+    function highlightAdverbsAndVerbs(text) {            
+        // Use compromise to process the text
+        const doc = nlp(text);
+        
+        // Extract adverbs and verbs
+        const adverbList = doc.adverbs().out('array');
+        const verbList = doc.verbs().out('array');
+        const nounList = doc.nouns().out('array');
+
+        console.log("nounList",nounList);
+
+        let highlightedText = text;
+
+        // Replace adverbs in the text with <mark class="adverb"> tags
+        adverbList.forEach(adverb => {
+            adverb = escapeRegExp(adverb);
+            const regex = new RegExp(`\\b${adverb}\\b`, 'gi');
+            highlightedText = highlightedText.replace(regex, `<mark class="adverb">${adverb}</mark>`);
         });
 
-        // document.getElementById('getPlainText').addEventListener('click', function () {
-            
-        // });
+        // Replace verbs in the text with <mark class="verb"> tags
+        verbList.forEach(verb => {
+            verb = escapeRegExp(verb);
+            const regex = new RegExp(`\\b${verb}\\b`, 'gi');
+            highlightedText = highlightedText.replace(regex, `<mark class="verb">${verb}</mark>`);
+        });
 
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text)
-                .then(() => {
-                    console.log('Text copied to clipboard:'); // Optional: log to console
-                })
-                .catch(err => {
-                    console.error('Error copying text: ', err);
+        // Replace nouns in the text with <mark class="noun"> tags
+        nounList.forEach(noun => {
+            noun = escapeRegExp(noun);
+            const regex = new RegExp(`\\b${noun}\\b`, 'gi');
+            highlightedText = highlightedText.replace(regex, `<mark class="noun">${noun}</mark>`);
+        });
+
+        // Split the result by newlines to create paragraphs
+        let resultHtml = '';
+        const paragraphs = highlightedText.split(/\n/);
+        paragraphs.forEach(paragraph => {
+            resultHtml += `<p contenteditable="true">${paragraph}</p>`;
+        });
+
+        return resultHtml;            
+    }
+
+    document.addEventListener('keydown', function (event) {
+        // Check if Meta key (CMD) and Enter key are pressed
+        if (event.metaKey && event.key === 'Enter') {
+            updateText();
+        }
+    });
+
+    function updateText()
+    {
+        // get all the <p>'s from #result
+            const resultDiv = document.getElementById('result'); 
+            const paragraphs = resultDiv.querySelectorAll('p');
+            let plainText = '';
+            // grab the text from the <p>'s and join them with \n    
+            if (paragraphs.length > 1){
+                paragraphs.forEach(paragraph => {
+                    // const sentences = Array.from(paragraph.querySelectorAll('mark')).map(mark => mark.textContent);                        
+                    // plainText += sentences.join(' ') + '\n'; // Add double newlines for paragraph separation
+                    plainText += paragraph.textContent + '\n';                        
                 });
-        }
+            } else {
+                plainText = paragraphs[0].textContent;
+                console.log("plainText",plainText);
+            }
+            // Trim the last newlines
+            plainText = plainText.trim();
+            // copy to clipboard
+            copyToClipboard(plainText);
+            // update displayed text
+            processText(plainText);
+    }
+
+    // document.getElementById('getPlainText').addEventListener('click', function () {
+        
+    // });
+
+    function copyToClipboard(text) {
+        navigator.clipboard.writeText(text)
+        .then(() => {
+            console.log('Text copied to clipboard:'); // Optional: log to console
+        })
+        .catch(err => {
+            console.error('Error copying text: ', err);
+        });
+    }
     </script>
 </body>
 </html>
