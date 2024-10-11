@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text to HTML Converter</title>
+    <title>Writing Tool</title>
     <style>
     .word-1 { background-color: rgb(221, 214, 254); }
     .word-2 { background-color: rgb(221, 214, 254); }
@@ -160,44 +160,45 @@
     }
 
     function escapeRegExp(string) {
-        // Escapes special characters for use in a regular expression, except spaces
-        let escaped =  string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        console.log(string,escaped);
-        return escaped;
+        // Escapes special characters for use in a regular expression
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
     function highlightAdverbsAndVerbs(text) {            
         // Use compromise to process the text
         const doc = nlp(text);
         
-        // Extract adverbs and verbs
+        // Extract adverbs, verbs, and nouns
         const adverbList = doc.adverbs().out('array');
         const verbList = doc.verbs().out('array');
         const nounList = doc.nouns().out('array');
 
-        console.log("nounList",nounList);
-
         let highlightedText = text;
+
+        // Helper function to preserve the original case in the replacement
+        function wrapWithTag(match, tagClass) {
+            return `<mark class="${tagClass}">${match}</mark>`;
+        }
 
         // Replace adverbs in the text with <mark class="adverb"> tags
         adverbList.forEach(adverb => {
             adverb = escapeRegExp(adverb);
             const regex = new RegExp(`\\b${adverb}\\b`, 'gi');
-            highlightedText = highlightedText.replace(regex, `<mark class="adverb">${adverb}</mark>`);
+            highlightedText = highlightedText.replace(regex, match => wrapWithTag(match, 'adverb'));
         });
 
         // Replace verbs in the text with <mark class="verb"> tags
         verbList.forEach(verb => {
             verb = escapeRegExp(verb);
             const regex = new RegExp(`\\b${verb}\\b`, 'gi');
-            highlightedText = highlightedText.replace(regex, `<mark class="verb">${verb}</mark>`);
+            highlightedText = highlightedText.replace(regex, match => wrapWithTag(match, 'verb'));
         });
 
         // Replace nouns in the text with <mark class="noun"> tags
         nounList.forEach(noun => {
             noun = escapeRegExp(noun);
             const regex = new RegExp(`\\b${noun}\\b`, 'gi');
-            highlightedText = highlightedText.replace(regex, `<mark class="noun">${noun}</mark>`);
+            highlightedText = highlightedText.replace(regex, match => wrapWithTag(match, 'noun'));
         });
 
         // Split the result by newlines to create paragraphs
@@ -209,6 +210,7 @@
 
         return resultHtml;            
     }
+
 
     document.addEventListener('keydown', function (event) {
         // Check if Meta key (CMD) and Enter key are pressed
