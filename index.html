@@ -149,7 +149,7 @@
         // Loop over each "to be" verb and wrap it in <mark> tags
         toBeVerbs.forEach(verb => {
             const regex = new RegExp(`\\b${verb}\\b`, 'gi');
-            modifiedText = modifiedText.replace(regex, `<mark>${verb}</mark>`);
+            modifiedText = modifiedText.replace(regex, match => wrapWithTag(match, 'tobe')); 
         });
         let resultHtml = '';
         const paragraphs = modifiedText.split(/\n/); // Split on double spaces
@@ -164,6 +164,11 @@
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
+    // Helper function to preserve the original case in the replacement
+    function wrapWithTag(match, tagClass) {
+        return `<mark class="${tagClass}">${match}</mark>`;
+    }
+
     function highlightAdverbsAndVerbs(text) {            
         // Use compromise to process the text
         const doc = nlp(text);
@@ -175,10 +180,6 @@
 
         let highlightedText = text;
 
-        // Helper function to preserve the original case in the replacement
-        function wrapWithTag(match, tagClass) {
-            return `<mark class="${tagClass}">${match}</mark>`;
-        }
 
         // Replace adverbs in the text with <mark class="adverb"> tags
         adverbList.forEach(adverb => {
